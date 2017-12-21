@@ -25,4 +25,3 @@ namespace PV.Web.ViewModel
         }
     }
 }
-}

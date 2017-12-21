@@ -19,6 +19,7 @@ namespace PV.Web.ViewModel
         [Required(AllowEmptyStrings = false, ErrorMessage = "El password no puede estar vacio.")]
         public String Password { get; set; }
 
+        
         public LoginViewModels()
         {
 

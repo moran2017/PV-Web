@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PV.Web.ViewModel;
+using PV.Web.Models;
 
 namespace PV.Web.Controllers
 {
@@ -10,7 +12,55 @@ namespace PV.Web.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Login");
+        }
+
+        //DasBoard
+        public ActionResult Dashboard()
+        {
+            DashboardViewModel objViewModel = new DashboardViewModel();
+
+            return View(objViewModel);
+        }
+
+        //view login get
+        [HttpGet]
+        public ActionResult Login()
+        {
+            LoginViewModels objViewMolel = new LoginViewModels();
+
+            return View(objViewMolel);
+
+        }
+
+        //Login  post
+        [HttpPost]
+        public ActionResult Login(LoginViewModels objViewModel)
+        {
+            PVPruebasEntities context = new PVPruebasEntities();
+
+            login objUsuario = context.login.FirstOrDefault(X => X.Usuario == objViewModel.Usuario
+            && X.Password == objViewModel.Password);
+
+            if (objUsuario == null)
+            {
+                return View(objViewModel);
+            }
+            else
+            {
+                ViewBag.Error = "Todos lo campos deben ser llenados";
+            }
+
+            Session["objUsuario"] = objUsuario;
+            return RedirectToAction("DashBoard");
+
+        }
+
+        // cerrar seion
+        public ActionResult CerrarSesion()
+        {
+            Session.Clear();
+            return RedirectToAction("Login");
         }
 
         public ActionResult About()
